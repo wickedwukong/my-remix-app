@@ -29,6 +29,7 @@ const fakeContacts = {
   records: {} as Record<string, ContactRecord>,
 
   async getAll(): Promise<ContactRecord[]> {
+    console.log("Getting all contacts");
     return Object.keys(fakeContacts.records)
       .map((key) => fakeContacts.records[key])
       .sort(sortBy("-createdAt", "last"));
@@ -83,6 +84,7 @@ export async function getContact(id: string) {
 }
 
 export async function updateContact(id: string, updates: ContactMutation) {
+  console.log("Updating contact", id, updates);
   const contact = await fakeContacts.get(id);
   if (!contact) {
     throw new Error(`No contact found for ${id}`);
