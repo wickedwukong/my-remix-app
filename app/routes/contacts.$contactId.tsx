@@ -1,23 +1,10 @@
 import type { FunctionComponent } from "react";
 import type { ContactRecord } from "../data";
-import { deleteContact } from "../data";
-import { redirect } from "@remix-run/node";
 import type { LoaderFunctionArgs } from "@remix-run/node";
 import invariant from "tiny-invariant";
-import type { ActionFunctionArgs } from "@remix-run/node";
-
-
 import { json } from "@remix-run/node";
 import { Form, useLoaderData } from "@remix-run/react";
-// existing imports
-
 import { getContact } from "../data";
-export const action = async ( {params}: ActionFunctionArgs ) => {
-    console.log("in contacts.$contactId.tsx");
-    invariant(params.contactId, "Missing contactId param");
-    await deleteContact(params.contactId);
-    return redirect(`/`);
-    };
 
 export const loader = async ({params}: LoaderFunctionArgs) => {
     invariant(params.contactId, "Missing contactId param");
@@ -73,6 +60,7 @@ export default function Contact() {
           </Form>
 
           <Form
+            action="destroy"
             method="delete"
             onSubmit={(event) => {
               const response = confirm(

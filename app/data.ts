@@ -29,7 +29,6 @@ const fakeContacts = {
   records: {} as Record<string, ContactRecord>,
 
   async getAll(): Promise<ContactRecord[]> {
-    console.log("Getting all contacts");
     return Object.keys(fakeContacts.records)
       .map((key) => fakeContacts.records[key])
       .sort(sortBy("-createdAt", "last"));
