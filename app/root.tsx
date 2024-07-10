@@ -24,7 +24,7 @@ export const loader = async ({request}: LoaderFunctionArgs) => {
   const url = new URL(request.url);
   const q = url.searchParams.get("q");
   const contacts = await getContacts(q);
-  return json({ contacts });
+  return json({ contacts, q });
 };
 
 export const links: LinksFunction = () => [
@@ -33,7 +33,7 @@ export const links: LinksFunction = () => [
 
 export default function App() {
   const navigation = useNavigation();
-  const { contacts } = useLoaderData<typeof loader>();;
+  const { contacts, q } = useLoaderData<typeof loader>();;
   return (
     <html lang="en">
       <head>
@@ -54,7 +54,7 @@ export default function App() {
                 aria-label="Search contacts"
                 id="q"
                 name="q"
-                placeholder="Search"
+                placeholder= {q || "Search contacts"}
                 type="search"
               />
               <div
