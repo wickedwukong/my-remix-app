@@ -11,6 +11,7 @@ import {
 } from "@remix-run/react";
 import { json, redirect } from "@remix-run/node";
 import type { LinksFunction, LoaderFunctionArgs } from "@remix-run/node";
+import { useEffect } from "react";
 
 import appStylesHref from "./app.css?url";
 import { createEmptyContact, getContacts } from "./data";
@@ -33,7 +34,13 @@ export const links: LinksFunction = () => [
 
 export default function App() {
   const navigation = useNavigation();
-  const { contacts, q } = useLoaderData<typeof loader>();;
+  const { contacts, q } = useLoaderData<typeof loader>();
+  useEffect(() => {
+    const searchField = document.getElementById("q");
+    if (searchField instanceof HTMLInputElement) {
+      searchField.value = q || "";
+    }
+  }, [q]);
   return (
     <html lang="en">
       <head>
