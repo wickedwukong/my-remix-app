@@ -7,7 +7,8 @@ import {
   Outlet,
   NavLink,
   useLoaderData,
-  useNavigation
+  useNavigation,
+  useSubmit
 } from "@remix-run/react";
 import { json, redirect } from "@remix-run/node";
 import type { LinksFunction, LoaderFunctionArgs } from "@remix-run/node";
@@ -22,6 +23,7 @@ export const action = async () => {
 };
 
 export const loader = async ({request}: LoaderFunctionArgs) => {
+  console.log
   const url = new URL(request.url);
   const q = url.searchParams.get("q");
   const contacts = await getContacts(q);
@@ -34,6 +36,12 @@ export const links: LinksFunction = () => [
 
 export default function App() {
   const navigation = useNavigation();
+
+  const searching = navigation.location && new URLSearchParams(navigation.location.search).has(
+    "q"
+  );
+
+  const submit = useSubmit();
   const { contacts, q } = useLoaderData<typeof loader>();
   useEffect(() => {
     const searchField = document.getElementById("q");
@@ -56,17 +64,18 @@ export default function App() {
         <div id="sidebar">
           <h1>Remix Contacts</h1>
           <div>
-            <Form id="search-form" role="search">
+            <Form id="search-form" role="search" onChange={(e) => submit(e.currentTarget)}>
               <input
                 aria-label="Search contacts"
                 id="q"
                 name="q"
                 placeholder= {q || "Search contacts"}
                 type="search"
+                className={searching ? "loading" : ""}
               />
               <div
                 aria-hidden
-                hidden={true}
+                hidden={!searching}
                 id="search-spinner"
               />
             </Form>
