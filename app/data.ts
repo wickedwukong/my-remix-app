@@ -83,13 +83,12 @@ export async function getContact(id: string) {
 }
 
 export async function updateContact(id: string, updates: ContactMutation) {
-  console.log("Updating contact", id, updates);
   const contact = await fakeContacts.get(id);
   if (!contact) {
     throw new Error(`No contact found for ${id}`);
   }
   await fakeContacts.set(id, { ...contact, ...updates });
-  return contact;
+  return { ...contact, ...updates };
 }
 
 export async function deleteContact(id: string) {

@@ -64,7 +64,12 @@ export default function App() {
         <div id="sidebar">
           <h1>Remix Contacts</h1>
           <div>
-            <Form id="search-form" role="search" onChange={(e) => submit(e.currentTarget)}>
+            <Form id="search-form" role="search"              onChange={(event) => {
+                const isFirstSearch = q === null;
+                submit(event.currentTarget, {
+                  replace: !isFirstSearch,
+                });
+              }}>
               <input
                 aria-label="Search contacts"
                 id="q"

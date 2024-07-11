@@ -7,7 +7,6 @@ export const action = async ({
     params,
     request,
   }: ActionFunctionArgs) => {
-    console.log("action");
     invariant(params.contactId, "Missing contactId param");
     const formData = await request.formData();
     const updates = Object.fromEntries(formData);
@@ -18,7 +17,6 @@ export const action = async ({
 export const loader = async ({
   params,
 }: LoaderFunctionArgs) => {
-  console.log("loader");
   invariant(params.contactId, "Missing contactId param");
   const contact = await getContact(params.contactId);
   if (!contact) {
